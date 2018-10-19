@@ -1,0 +1,13 @@
+*.o
+*.bin
+*.elf
+*.a
+*.d
+testvectors/
+benchmarks/
+__pycache__/
+bin/
+bin-host/
+*.swp
+# assembly files in this project are all generated in Python
+*.s
