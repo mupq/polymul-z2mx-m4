@@ -1,6 +1,8 @@
 # Multiplication in Z<sub>2<sup>m</sup></sub>[x] on Cortex-M4
 
-This code package contains the software accompanying the paper "_Faster multiplication in Z<sub>2<sup>m</sup></sub>[x] on the Cortex-M4 to speed up NIST PQC candidates_".
+This code package contains the software accompanying the paper "_Faster multiplication in Z<sub>2<sup>m</sup></sub>[x] on the Cortex-M4 to speed up NIST PQC candidates_". 
+The paper is available at https://eprint.iacr.org/2018/1018.
+
 Large parts of the benchmarking code in this package and this README document are based on [PQM4](https://github.com/mupq/pqm4).
 
 The implementations of the schemes, Kindi, NTRU-HRSS, NTRUEncrypt, RLizard and Saber, **are included as they were as the time of writing. They will not be maintained here.** The schemes are purely included for demonstration purposes and to keep the results described in the paper easily verifiable. We instead refer to [PQM4](https://github.com/mupq/pqm4) for up-to-date Cortex-M4 implementations.
