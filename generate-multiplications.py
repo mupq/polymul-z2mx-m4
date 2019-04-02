@@ -915,10 +915,10 @@ if __name__ == '__main__':
         for statement in postprocess_karatsuba(fn_gen):
           p(statement)
 
-    p(f".global polymul_asm")
-    p(f".type polymul_asm, %function")
-
-    p(f"polymul_asm:")
+    p(".global polymul_asm")
+    p(".type polymul_asm, %function")
+    p(".align 2")
+    p("polymul_asm:")
     p("push {r4-r12, r14}")
 
     for statement in outermult:
