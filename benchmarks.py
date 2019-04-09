@@ -69,10 +69,10 @@ def printResults(binary, data):
     printStats(dec)
 
 def doBenchmarks():
-    binaries = ["benchmark-kindi256342.bin", "benchmark-ntru-hrss.bin",
+    binaries = ["benchmark-kindi256342.bin", "benchmark-ntruhrss701.bin"
                 "benchmark-ntru-kem-743.bin", "benchmark-saber.bin",
                 "benchmark-rlizard-1024-11.bin",
-                "stack-kindi256342.bin", "stack-ntru-hrss.bin",
+                "stack-kindi256342.bin", "stack-ntruhrss701.bin",
                 "stack-ntru-kem-743.bin", "stack-saber.bin",
                 "stack-rlizard-1024-11.bin"
                 ]

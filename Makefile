@@ -27,7 +27,7 @@ COMMONPATH=common
 
 HEADERS = $(COMMONPATH)/fips202.h $(COMMONPATH)/randombytes.h
 SOURCES= $(COMMONPATH)/stm32f4_wrapper.c $(COMMONPATH)/fips202.c $(COMMONPATH)/randombytes.c generate-multiplications.py
-OBJECTS = stm32f4_wrapper.o randombytes.o fips202.o keccakf1600.o crypto_hash_sha512.o
+OBJECTS = stm32f4_wrapper.o randombytes.o fips202.o keccakf1600.o sha2.o
 
 SCHEMES = kindi256342 ntruhrss701 ntru-kem-743 rlizard-1024-11 saber
 
@@ -145,7 +145,7 @@ randombytes.o: $(COMMONPATH)/randombytes.c
 fips202.o: $(COMMONPATH)/fips202.c
 	$(CC) $(CFLAGS) -o $@ -c $^
 
-crypto_hash_sha512.o: $(COMMONPATH)/crypto_hash_sha512.c
+sha2.o: $(COMMONPATH)/sha2.c
 	$(CC) $(CFLAGS) -o $@ -c $^
 
 keccakf1600.o:  common/keccakf1600.S
