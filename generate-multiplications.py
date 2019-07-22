@@ -52,10 +52,10 @@ def alloc_stack(stack_space, reg):
             yield f"add sp, #{-stack_space}"
     else:
         if stack_space >= 0:
-            yield f"mov {reg}, #{stack_space}"
+            yield f"movw {reg}, #{stack_space}"
             yield f"sub sp,{reg}"
         else:
-            yield f"mov {reg}, #{-stack_space}"
+            yield f"movw {reg}, #{-stack_space}"
             yield f"add sp, {reg}"
 
 # This only passes args and kwargs for the first occurrence of `call`
@@ -165,7 +165,7 @@ def karatsuba(t, n, offsets=defaultdict(int), top=False):
     # because r3 is still holding a reference to a part of the stack
     if 2 * sp_al_plus_ah_width + sp_z1_width >= 4096:
         # fixes too large offset for N>=1024
-        yield f"mov r11, #{2 * sp_al_plus_ah_width + sp_z1_width}"
+        yield f"movw r11, #{2 * sp_al_plus_ah_width + sp_z1_width}"
         yield f"ldr {DEST}, [sp, r11]"
     else:
         yield f"ldr {DEST}, [sp, #{2 * sp_al_plus_ah_width + sp_z1_width}]"
@@ -450,7 +450,7 @@ def toom4(t, n, innermul=karatsuba):
 
 
     # innermul(t0,f0,g0);
-    yield f"mov r11, #{t0+8}"
+    yield f"movw r11, #{t0+8}"
     yield f"add {DEST}, sp, r11"
     yield from call(innermul, t, limb_size, top=True)
 
@@ -522,8 +522,8 @@ def toom4(t, n, innermul=karatsuba):
 
     inv3 = "r14"
     inv5 = "r12"
-    yield f"mov {inv3}, #43691"
-    yield f"mov {inv5}, #52429"
+    yield f"movw {inv3}, #43691"
+    yield f"movw {inv5}, #52429"
 
 
     h0 = "r1"
@@ -683,7 +683,7 @@ def toom3(t,n, innermul=karatsuba, top=False):
     yield from call(innermul, threshold, limb_size, top=True)
 
     # innermul(t4, f2, g2);
-    yield f"mov r11, #{4*2*(limb_size*2)}"
+    yield f"movw r11, #{4*2*(limb_size*2)}"
     yield f"add {DEST}, r11"
     yield f"add {SRC1},sp, #{x2+12}"
     yield f"add {SRC2},{SRC1},#{3*2*limb_size}"
@@ -733,7 +733,7 @@ def toom3(t,n, innermul=karatsuba, top=False):
     t2 = 2*2*(limb_size*2)
 
     # innermul(t1, f0, g0);
-    yield f"mov r11, #{stack_space_x+stack_space_y+t1+4}"
+    yield f"movw r11, #{stack_space_x+stack_space_y+t1+4}"
     yield f"add {DEST}, sp, r11"
     yield f"add {SRC1}, sp, #{4}"
     yield f"add {SRC2}, {SRC1}, #{3*2*limb_size}"
@@ -763,18 +763,18 @@ def toom3(t,n, innermul=karatsuba, top=False):
     t3_reg = "r2"
     t3 = 0
     t4 = 1*2*(limb_size*2)
-    yield f"mov {t3_reg}, #{3*2*(limb_size*2)}"
+    yield f"movw {t3_reg}, #{3*2*(limb_size*2)}"
     yield f"add {t3_reg}, {t}, {t3_reg}"
 
     inv3 = "r14"
-    yield f"mov {inv3}, #43691"
+    yield f"movw {inv3}, #43691"
     is_initialized=dict()
     for i in range(0,2*limb_size-2,2):
         yield f"ldr r3, [{t}, #{t0 + i*2}]"
         yield f"ldr r4, [{t}, #{t1 + i*2}]"
         # for N=1024, this offset gets too large
         if t2 + i*2 >= 4096:
-            yield f"mov r6, #{t2 + i*2}"
+            yield f"movw r6, #{t2 + i*2}"
             yield f"ldr r5, [{t}, r6]"
         else:
             yield f"ldr r5, [{t}, #{t2 + i*2}]"
@@ -827,7 +827,7 @@ def toom3(t,n, innermul=karatsuba, top=False):
 
     # for N=1024, this offset is too large for the very last iteration
     if t2 + (2*limb_size-2)*2 >= 4096:
-        yield f"mov r8, #{t2 + (2*limb_size-2)*2}"
+        yield f"movw r8, #{t2 + (2*limb_size-2)*2}"
         yield f"ldrh r5, [{t}, r8]"
     else:
         yield f"ldrh r5, [{t}, #{t2 + (2*limb_size-2)*2}]"
